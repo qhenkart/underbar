@@ -157,7 +157,7 @@
   //          No accumulator is given so the first element is used.
    _.reduce = function(collection, iterator, accumulator) {
    
-      if (accumulator == undefined){
+      if (accumulator === undefined){
         accumulator = collection.shift();
       }
     _.each(collection, function(x){
@@ -182,13 +182,39 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
-  };
+      return _.reduce(collection, function(wasTrue, x){
+        if (iterator == undefined){ return wasTrue == Boolean(x)}
+        return wasTrue == Boolean(iterator(x));
+      }, true);
+    }
+
+
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+
+    /* //Passes all tests
+    var bool = false;
+    _.each(collection, function(x){
+      if (iterator == undefined && Boolean(x)){
+        bool = true
+      }else if (iterator != undefined && Boolean(iterator(x))){
+         bool = true
+      }
+    });
+    return bool;
+  }
+*/
+      return !_.every(collection, function(x){
+        if (iterator == undefined){ return !Boolean(x)}
+        return !iterator(x);
+      });
+      
+  }
+  
     // TIP: There's a very clever way to re-use every() here.
-  };
+  
 
 
   /**
