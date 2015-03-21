@@ -295,11 +295,14 @@
   // instead if possible.
   _.memoize = function(func) {
     var result = {};
-    return function(key) {
-      if (!(key in result)) {       
-        result[key] = func.apply(this, arguments);
+
+    //allows access to func
+    return function() {
+      var args = Array.prototype.slice.call(arguments);
+      if (!(args in result)) {       
+        result[args] = func.apply(this, arguments);
       }
-      return result[key];
+      return result[args];
     };
   };
 
